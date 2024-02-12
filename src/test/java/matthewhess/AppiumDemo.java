@@ -1,25 +1,29 @@
 package matthewhess;
 
+import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.AppiumBy;
 
-public class AppiumDemo {
+import matthewhess.TestUtils.AndroidBaseTest;
+
+public class AppiumDemo extends AndroidBaseTest {
 
 	@Test
-	public void AppiumTest() throws MalformedURLException, URISyntaxException {
-
-		UiAutomator2Options options = new UiAutomator2Options();
-
-		// Emulator
-		options.setDeviceName("Pixel_3a_API_34_extension_level_7_arm64-v8a");
-		options.setApp("/Users/matthewhess/Dev/eclipse-workspace/Appium/src/test/java/Resources/ApiDemos-debug.apk");
+	void AppiumTest() {
+//		WebElement accessibilityButton = driver.findElement(AppiumBy.accessibilityId("Accessibility"));
+//		accessibilityButton.click();
+	
+		driver.findElement(AppiumBy.accessibilityId("Preference")).click();
+		driver.findElement(By.xpath("//android.widget.TextView[@content-desc='3. Preference dependencies']")).click();
+		driver.findElement(By.id("android:id/checkbox")).click();
+		driver.findElement(By.xpath(" (//android.widget.RelativeLayout)[2]")).click();
+		String alertTitle = driver.findElement(By.id("android:id/alertTitle")).getText();
+		Assert.assertEquals(alertTitle, "WiFi settings");
+		driver.findElement(By.id("android:id/edit")).sendKeys("Matt's Wifi");
+		driver.findElements(AppiumBy.className("android.widget.Button")).get(1).click();
+		System.out.println("Test Ran");
 		
-		AndroidDriver driver = new AndroidDriver(new URI("http://127.0.0.1:4723/").toURL(), options);
-		driver.quit();
 	}
 }
